@@ -19,6 +19,11 @@ app.set("views", path.join(__dirname, "../client/views") )
 
 
 // CRIAÇÃO DAS ROTAS
+
+// IMPORTAR AS ROTAS DE USUÁRIO
+const usuarioRoutes = require("./routes/usuarioRoutes.js")
+app.use("/usuarios", usuarioRoutes)
+
 // ROTAS PÚBLICAS
 app.get("/", (req, res) => {
     res.render('index')
