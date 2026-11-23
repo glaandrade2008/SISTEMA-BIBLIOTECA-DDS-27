@@ -1,36 +1,33 @@
-// IMPORTANDO AS CONFIGURAÇÕES DO BANCO
+// IMPORTANDO AS CONFIGURAÇÕES DO BANCO 
 const db = require("../config/db.js")
 
 // EXPORTAR AS FUNÇÕES DO MODEL
 module.exports = {
-    // LOGIN
+    // LOGIN    
     login : () => {
-        console.log("LOGIN USUARIO FUNCIONANDO");
-        
+        console.log("LOGIN USUÁRIO FUNCIONANDO");
     },
     // CRUD
     // CREATE
-    criarUsuario: () => {
-        console.log("CRIEI UM USUARIO");
-        
-    },
+    criarUsuario: async (nome, email, senha, perfil) =>{
+        // VARIAVEL PRA GUARDAR O COMANDO SQL
+        const sql = ' INSERT INTO tb_usuarios (nome, email, senha, perfil)  VALUES (?, ?, ?, ?)'
+        // EXECUTA O SQL
+        const [resultado] = await db.execute(sql, [nome, email, senha, perfil])
 
+        // RETORNAR PRO CONTROLLER O RESULTADO
+        return resultado.insertId
+    },
     // READ
     listarUsuarios: () => {
-        console.log("TOMA AI OS USUARIOS");
-        
+        console.log("TOMA AI OS USUÁRIOS");
     },
-
     // UPDATE
-    atualizarUsuario: () => {
+    atualizarUsuario: () =>{
         console.log("ATUALIZEI UM USUÁRIO");
-        
     },
-
     // DELETE
     deletarUsuario: () => {
-        console.log("APAGUEI UM USUARIO");
-        
+        console.log("APAGUEI UM USUÁRIO");
     }
-
 }
