@@ -22,6 +22,30 @@ app.set("views", path.join(__dirname, "../client/views") )
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+// CONFIGURAÇÃO DO EXPRESS-SESSION
+const session = require("express-session")
+app.use(session({ 
+    secret: 'cr7',
+    resave: false,
+    saveUninitialized: false
+}))
+
+// DISPONIBILIZA O USUARIO DA SESSÃO PARA EJS USAR
+app.use((req, res, next) => {
+    res.locals.usuario = req.session?.usuario || null;
+    req.usuario = req.session?.usuario || null;
+    next();
+})
+
+app.get("/login", (req, res) => {
+    // DESTRUIR A SESSÃO ATIVA
+    if(req.session.usuario){
+        req.session.destroy()
+    }
+    res.render('login')
+})
+
+
 // CRIAÇÃO DAS ROTAS
 // IMPORTAR AS ROTAS DE USUÁRIO
 const usuarioRoutes = require("./routes/usuarioRoutes.js")
@@ -29,7 +53,11 @@ app.use("/usuarios", usuarioRoutes)
 
 // ROTAS PÚBLICAS
 app.get("/", (req, res) => {
-    res.render('index')
+    // DESTRUIR A SESSÃO ATIVA
+    if(req.session.usuario){
+        req.session.destroy()
+    }
+    res.render('login')
 })
 
 app.get("/login", (req, res) => {
