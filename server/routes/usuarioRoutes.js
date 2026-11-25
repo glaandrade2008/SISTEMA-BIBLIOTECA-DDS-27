@@ -19,17 +19,16 @@ router.get("/cadastrar", (req,res) => {
 router.post("/cadastrar", usuarioControllers.criar)
 
 // MOSTRA A PÁGINA DE EDITAR USUÁRIO
-router.get("/editar", (req,res) => {
-    res.render("usuarios/editar");
-})
+router.get("/editar/:id", usuarioControllers.renderizarEditar)
+router.post("/editar/:id", usuarioControllers.editar)
 
 // MOSTRA A PÁGINA DE LISTAR USUÁRIOS
 router.get("/listar", usuarioControllers.listar)
 
 router.get("/", usuarioControllers.listar)
 
-// ROTA DE DELETAR UM USUARIO
-router.post("/deletar/.id", usuarioControllers.deletar)
+// ROTA DE DELETAR UM USUÁRIO
+router.post("/deletar/:id", usuarioControllers.deletar)
 
 // EXPORTAR O ROUTER
 module.exports = router

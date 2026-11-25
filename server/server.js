@@ -30,7 +30,7 @@ app.use(session({
     saveUninitialized: false
 }))
 
-// DISPONIBILIZA O USUARIO DA SESSÃO PARA EJS USAR
+// DISPONIBILIZA O USUÁRIO DA SESSÃO PARA O EJS USAR
 app.use((req, res, next) => {
     res.locals.usuario = req.session?.usuario || null;
     req.usuario = req.session?.usuario || null;
@@ -39,12 +39,11 @@ app.use((req, res, next) => {
 
 app.get("/login", (req, res) => {
     // DESTRUIR A SESSÃO ATIVA
-    if(req.session.usuario){
+    if( req.session?.usuario){
         req.session.destroy()
     }
     res.render('login')
 })
-
 
 // CRIAÇÃO DAS ROTAS
 // IMPORTAR AS ROTAS DE USUÁRIO
@@ -53,16 +52,10 @@ app.use("/usuarios", usuarioRoutes)
 
 // ROTAS PÚBLICAS
 app.get("/", (req, res) => {
-    // DESTRUIR A SESSÃO ATIVA
-    if(req.session.usuario){
-        req.session.destroy()
-    }
-    res.render('login')
+    res.render('index')
 })
 
-app.get("/login", (req, res) => {
-    res.render('login')
-})
+
 
 // TRAZ AS CONFIGURAÇÕES DO BANCO
 const pool = require("./config/db.js");
